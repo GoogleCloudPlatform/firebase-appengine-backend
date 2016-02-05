@@ -1,0 +1,90 @@
+/**
+# Copyright Google Inc. 2016
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+**/
+
+package com.google.cloud.solutions.managedvm.backend;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
+
+import java.lang.Override;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Iterator;
+import java.util.logging.Logger;
+
+/*
+ * MessagePurger is responsible for purging messages pushed under registered parent keys.
+ * If a number of entries exceeds "maxLogs", exceeded entries are purged. It checks each registered 
+ * parent key under regular interval, "purgeInterval".
+ * 
+ * @autho teppeiy
+ */
+public class MessagePurger extends Thread {
+
+	private static Logger logger = Logger.getLogger("com.google.cloud.solutions.managedvm.backend.MessagePurger");
+
+	private Firebase firebase;
+	private int purgeInterval;
+	private int maxLogs;
+	private ConcurrentLinkedQueue<String> branches;
+
+	public MessagePurger(Firebase firebase, int purgeInterval, int maxLogs) {
+		this.setDaemon(true);
+		this.firebase = firebase;
+		this.purgeInterval = purgeInterval;
+		this.maxLogs = maxLogs;
+		branches = new ConcurrentLinkedQueue<String>();
+	}
+
+	public void registerBranch(String branchKey) {
+		branches.add(branchKey);
+	}
+
+	public void run() {
+		for(;;) {
+			try {
+				Thread.sleep(purgeInterval);
+
+				Iterator<String> iter = branches.iterator();
+				while(iter.hasNext()) {
+					final String branchKey = (String)iter.next();
+					// Query to check whether entries exceed "maxLogs".
+					Query query = firebase.child(branchKey).orderByKey().limitToFirst(maxLogs);
+					query.addListenerForSingleValueEvent(new ValueEventListener() {
+						@Override
+						public void onDataChange(DataSnapshot snapshot) {
+							// If entries are less than "maxLogs", do nothing.
+							if (snapshot.getChildrenCount() == maxLogs) {
+								for (DataSnapshot child: snapshot.getChildren()) {
+									firebase.child(branchKey + "/" + child.getKey()).removeValue();
+								}
+							}
+						}
+
+						@Override
+						public void onCancelled(FirebaseError firebaseError) {
+							logger.warning(firebaseError.getDetails());
+						}
+					});
+				}
+			} catch(InterruptedException ie) {
+				logger.warning(ie.getMessage());
+				break;
+			}
+		}
+	}
+}
