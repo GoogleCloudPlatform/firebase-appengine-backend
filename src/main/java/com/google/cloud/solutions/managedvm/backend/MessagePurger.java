@@ -39,14 +39,14 @@ public class MessagePurger extends Thread {
 
 	private Firebase firebase;
 	private int purgeInterval;
-	private int maxLogs;
+	private int purgeLogs;
 	private ConcurrentLinkedQueue<String> branches;
 
-	public MessagePurger(Firebase firebase, int purgeInterval, int maxLogs) {
+	public MessagePurger(Firebase firebase, int purgeInterval, int purgeLogs) {
 		this.setDaemon(true);
 		this.firebase = firebase;
 		this.purgeInterval = purgeInterval;
-		this.maxLogs = maxLogs;
+		this.purgeLogs = purgeLogs;
 		branches = new ConcurrentLinkedQueue<String>();
 	}
 
@@ -63,12 +63,12 @@ public class MessagePurger extends Thread {
 				while(iter.hasNext()) {
 					final String branchKey = (String)iter.next();
 					// Query to check whether entries exceed "maxLogs".
-					Query query = firebase.child(branchKey).orderByKey().limitToFirst(maxLogs);
+					Query query = firebase.child(branchKey).orderByKey().limitToFirst(purgeLogs);
 					query.addListenerForSingleValueEvent(new ValueEventListener() {
 						@Override
 						public void onDataChange(DataSnapshot snapshot) {
 							// If entries are less than "maxLogs", do nothing.
-							if (snapshot.getChildrenCount() == maxLogs) {
+							if (snapshot.getChildrenCount() == purgeLogs) {
 								for (DataSnapshot child: snapshot.getChildren()) {
 									firebase.child(branchKey + "/" + child.getKey()).removeValue();
 								}

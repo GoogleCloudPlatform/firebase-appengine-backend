@@ -53,14 +53,14 @@ public class MessageProcessorServlet extends HttpServlet {
 	private static final String CH = "channels";
 	private static final String REQLOG = "requestLogger";
 
-	private static Logger localLog = Logger.getLogger("com.google.cloud.sollutions.mobilevm.backend.MessageProcessorServlet");
+	private static Logger localLog = Logger.getLogger("com.google.cloud.solutions.managedvm.backend.MessageProcessorServlet");
 	private Firebase firebase;
 
 	private String channels;
 	private String inbox;
 	
-	// If number of messages in each channel or user events exceeds "maxLogs", it will be purged.
-	private int maxLogs;  
+	// If number of messages in each channel or user events exceeds "purgeLogs", it will be purged.
+	private int purgeLogs;  
 	// Purger is invoked with every "purgeInterval".
 	private int purgeInterval;
 
@@ -72,7 +72,7 @@ public class MessageProcessorServlet extends HttpServlet {
 	public void init(ServletConfig config) {
 		channels = config.getInitParameter("channels");
 		firebase = new Firebase(config.getInitParameter("endpoint"));
-		maxLogs = Integer.parseInt(config.getInitParameter("maxLogs"));
+		purgeLogs = Integer.parseInt(config.getInitParameter("purgeLogs"));
 		purgeInterval = Integer.parseInt(config.getInitParameter("purgeInterval"));
 		String token = config.getInitParameter("token");
 
@@ -114,12 +114,13 @@ public class MessageProcessorServlet extends HttpServlet {
 			public void onChildRemoved(DataSnapshot arg0) {}
 		});
 
-		purger = new MessagePurger(firebase, purgeInterval, maxLogs);
+		purger = new MessagePurger(firebase, purgeInterval, purgeLogs);
 		String[] channelArray = channels.split(",");
 		for(int i = 0; i < channelArray.length; i++) {
 			purger.registerBranch(CH + "/" + channelArray[i]);
 		}
 		initLogger();
+		purger.setPriority(Thread.MIN_PRIORITY);
 		purger.start();
 	}
 
@@ -151,7 +152,7 @@ public class MessageProcessorServlet extends HttpServlet {
 	 * Initialize user event logger. This is just a sample implementation to demonstrate receiving updates. 
 	 * The production application should transform, filter or load to other data store such as BigQuery.
 	 */
-	private synchronized void initLogger() {
+	private void initLogger() {
 		String loggerKey = IBX + "/" + inbox + "/logs";
 		purger.registerBranch(loggerKey);
 		firebase.child(loggerKey).addChildEventListener(new ChildEventListener() {
@@ -199,6 +200,7 @@ public class MessageProcessorServlet extends HttpServlet {
 
 	@Override
 	public void destroy() {
+		purger.interrupt();
 		firebase.child(IBX + "/" + inbox).removeValue();
 	}
 }

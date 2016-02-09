@@ -12,7 +12,7 @@
             <param-value>"Firebase URL"</param-value>
 	    </init-param>
         <init-param>
-            <param-name>maxLogs</param-name>
+            <param-name>purgeLogs</param-name>
             <param-value>10</param-value>
         </init-param>
         <init-param>
