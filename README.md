@@ -4,9 +4,9 @@ This repository contains backend sample code for "[Using Firebase and App Engine
 
 ## Deployment Requirements
 Following Google APIs are needed to be enabled from Google Developers Console.
-* Google App Engine
-* Google Compute Engine
-* Sign up with [Firebase](https://www.firebase.com/) and obtain Firebase URL.
+- Google App Engine
+- Google Compute Engine
+- Sign up with [Firebase](https://www.firebase.com/) and obtain Firebase URL.
 
 Apache Maven is required in build environment. 
 
