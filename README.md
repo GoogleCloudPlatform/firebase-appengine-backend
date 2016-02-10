@@ -2,10 +2,13 @@
 
 This repository contains backend sample code for "[Using Firebase and App Engine Managed VM as mobile app backend](https://cloud.google.com/solutions/mobile/mobile-app-backend-on-cloud-platform#firebase-managed-vms)" paper.
 
+
 ## Deployment Requirements
 Following Google APIs are needed to be enabled from Google Developers Console.
 - Google App Engine
+
 - Google Compute Engine
+
 - Sign up with [Firebase](https://www.firebase.com/) and obtain Firebase URL.
 
 Apache Maven is required in build environment. 
@@ -26,7 +29,11 @@ Get credentials and configure properties. This is optional and you may skip if i
 
 
 ## Configuration
-- Login to Firebase console and add a new Firebase token from "Secrets" tab for custom authentication.
+- Login to Firebase console and check "Enable Google Authentication" from "Login & Auth" tab.
+
+- Add a Google Client ID. Detailed instructions are [here](https://www.firebase.com/docs/web/guide/login/google.html).
+
+- Add a new Firebase Secret from "Secrets" tab for custom authentication.
 
 - Replace following initial parameters in "<WEB-INF>/web.xml". 
 
@@ -39,10 +46,12 @@ Get credentials and configure properties. This is optional and you may skip if i
 ...
 
 <init-param>
-	<param-name>token</param-name>
-	<param-value>"Firebase custom token"</param-value>
+	<param-name>secret</param-name>
+	<param-value>"Firebase Secret"</param-value>
 </init-param>
 ```
+
+- Go back to Firebase console and add "Authorized Domains for OAuth Redirects"
 
 
 ## Build and deploy

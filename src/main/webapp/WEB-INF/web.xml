@@ -20,8 +20,8 @@
             <param-value>20000</param-value>
         </init-param>
 	    <init-param>
-            <param-name>token</param-name>
-            <param-value>"Firebase custom token"</param-value>
+            <param-name>secret</param-name>
+            <param-value>"Firebase Secret"</param-value>
 	    </init-param>
         <load-on-startup>0</load-on-startup>
     </servlet>

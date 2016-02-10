@@ -74,9 +74,9 @@ public class MessageProcessorServlet extends HttpServlet {
 		firebase = new Firebase(config.getInitParameter("endpoint"));
 		purgeLogs = Integer.parseInt(config.getInitParameter("purgeLogs"));
 		purgeInterval = Integer.parseInt(config.getInitParameter("purgeInterval"));
-		String token = config.getInitParameter("token");
+		String secret = config.getInitParameter("secret");
 
-		authenticate(token);
+		authenticate(secret);
 
 		logs = new ConcurrentLinkedQueue<LogEntry>();
 		generateUniqueId();
@@ -124,8 +124,8 @@ public class MessageProcessorServlet extends HttpServlet {
 		purger.start();
 	}
 
-	private void authenticate(String token) {
-		firebase.authWithCustomToken(token, new Firebase.AuthResultHandler() {
+	private void authenticate(String secret) {
+		firebase.authWithCustomToken(secret, new Firebase.AuthResultHandler() {
 			public void onAuthenticationError(FirebaseError error) {
 				localLog.info(error.getDetails());
 			}
