@@ -2,7 +2,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <servlet>
         <servlet-name>MessageProcessor</servlet-name>
-        <servlet-class>com.google.cloud.solutions.mobilevm.backend.MessageProcessorServlet</servlet-class>
+        <servlet-class>com.google.cloud.solutions.managedvm.backend.MessageProcessorServlet</servlet-class>
 	    <init-param>
 		    <param-name>channels</param-name>
 		    <param-value>books,game,music,sports,travel</param-value>
@@ -13,7 +13,7 @@
 	    </init-param>
         <init-param>
             <param-name>purgeLogs</param-name>
-            <param-value>10</param-value>
+            <param-value>100</param-value>
         </init-param>
         <init-param>
             <param-name>purgeInterval</param-name>

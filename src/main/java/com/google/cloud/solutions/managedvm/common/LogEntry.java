@@ -15,25 +15,24 @@
 
 package com.google.cloud.solutions.managedvm.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ServerValue;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /*
- * An instance of LogEntry represents a user event log, such as signin/out and switching a channel. 
+ * An instance of LogEntry represents a user event log, such as signin/out and switching a channel.
  */
 public class LogEntry {
     private String tag;
     private String log;
-    private HashMap<String, Object> time;
+    private Long time;
 
     public LogEntry() {}
 
     public LogEntry(String tag, String log) {
         this.tag = tag;
         this.log = log;
-        time = new HashMap<String, Object>();
-        time.put("date", ServerValue.TIMESTAMP);
     }
 
     public String getTag() { return tag; }
@@ -41,5 +40,9 @@ public class LogEntry {
     public String getLog() { return log; }
     public void setLog(String log) { this.log = log; }
 
-    public HashMap<String, Object> getTime() { return time; }
+    public Map<String, String> getTime() { return ServerValue.TIMESTAMP; }
+    public void setTime(Long time) { this.time = time; }
+
+    @JsonIgnore
+    public Long getTimeLong() { return time; }
 }

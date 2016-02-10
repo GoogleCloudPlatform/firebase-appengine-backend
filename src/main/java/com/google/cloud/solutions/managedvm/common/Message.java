@@ -15,8 +15,10 @@
 
 package com.google.cloud.solutions.managedvm.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ServerValue;
-import java.util.HashMap;
+
+import java.util.Map;
 
 /*
  * An instance of Message represents an actual message pushed to a channel.
@@ -24,15 +26,13 @@ import java.util.HashMap;
 public class Message {
     private String text;
     private String displayName;
-    private HashMap<String, Object> time;
+    private Long time;
 
     public Message() {}
 
     public Message(String text, String displayName) {
         this.text = text;
         this.displayName = displayName;
-        time = new HashMap<String, Object>();
-        time.put("date", ServerValue.TIMESTAMP);
     }
 
     public String getText() { return text; }
@@ -40,5 +40,10 @@ public class Message {
     public String getDisplayName() { return displayName; }
     public void setDisplayName(String displayName) { this.displayName = displayName; }
 
-    public HashMap<String, Object> getTime() { return time; }
+    public Map<String, String> getTime() { return ServerValue.TIMESTAMP; }
+    public void setTime(Long time) { this.time = time; }
+
+    @JsonIgnore
+    public Long getTimeLong() { return time;}
 }
+

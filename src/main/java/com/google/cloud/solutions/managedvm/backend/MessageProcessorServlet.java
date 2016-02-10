@@ -194,7 +194,7 @@ public class MessageProcessorServlet extends HttpServlet {
 
 		for(Iterator<LogEntry> iter = logs.iterator(); iter.hasNext();) {
 			LogEntry entry = (LogEntry)iter.next();
-			resp.getWriter().println(new Date((Long)entry.getTime().get("date")).toString() + "(id=" + entry.getTag() + ")" +  " : " + entry.getLog());
+			resp.getWriter().println(new Date(entry.getTimeLong()).toString() + "(id=" + entry.getTag() + ")" +  " : " + entry.getLog());
 		}
 	}
 
