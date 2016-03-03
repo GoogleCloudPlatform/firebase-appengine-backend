@@ -27,22 +27,22 @@ import com.google.cloud.solutions.managedvm.common.*;
 
 import java.io.IOException;
 import java.lang.Override;
-import java.util.Date;
-import java.util.Random;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Iterator;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Iterator;
 import java.util.logging.Logger;
+import java.util.Random;
 
-/*
+/**
  * MessageProcessorServlet is responsible for receiving user event logs from Android clients and
  * print logs whenever requested.
- *  
+ *
  * @author teppeiy
  */
 public class MessageProcessorServlet extends HttpServlet {
@@ -53,21 +53,21 @@ public class MessageProcessorServlet extends HttpServlet {
 	private static final String CH = "channels";
 	private static final String REQLOG = "requestLogger";
 
-	private static Logger localLog = Logger.getLogger("com.google.cloud.solutions.managedvm.backend.MessageProcessorServlet");
+	private static Logger localLog = Logger.getLogger(MessageProcessorServlet.class.getName());
 	private Firebase firebase;
 
 	private String channels;
 	private String inbox;
-	
+
 	// If number of messages in each channel or user events exceeds "purgeLogs", it will be purged.
-	private int purgeLogs;  
+	private int purgeLogs;
 	// Purger is invoked with every "purgeInterval".
 	private int purgeInterval;
 
 	private ConcurrentLinkedQueue<LogEntry> logs;
 
 	private MessagePurger purger;
-	
+
 	@Override
 	public void init(ServletConfig config) {
 		channels = config.getInitParameter("channels");
@@ -88,7 +88,9 @@ public class MessageProcessorServlet extends HttpServlet {
 		 */
 		firebase.child(REQLOG).addChildEventListener(new ChildEventListener() {
 			public void onChildAdded(DataSnapshot snapshot, String prevKey) {
-				firebase.child(IBX + "/" + snapshot.getValue()).runTransaction(new Transaction.Handler() {
+				firebase.child(IBX + "/" 
+						+ snapshot.getValue()).runTransaction(new Transaction.Handler() {
+							
 					public Transaction.Result doTransaction(MutableData currentData) {
 						// The only first Servlet instance will write its ID to the client inbox.
 						if (currentData.getValue() == null) {
@@ -97,7 +99,8 @@ public class MessageProcessorServlet extends HttpServlet {
 						return Transaction.success(currentData);
 					}
 
-					public void onComplete(FirebaseError error, boolean committed, DataSnapshot currentData) {
+					public void onComplete(FirebaseError error, boolean committed, 
+							DataSnapshot currentData) {
 					}
 				});
 				firebase.child(REQLOG).removeValue();
@@ -107,16 +110,16 @@ public class MessageProcessorServlet extends HttpServlet {
 				localLog.warning(error.getDetails());
 			}
 
-			public void onChildChanged(DataSnapshot arg0, String arg1) {}
+			public void onChildChanged(DataSnapshot snapshot, String prevKey) {}
 
-			public void onChildMoved(DataSnapshot arg0, String arg1) {}
+			public void onChildMoved(DataSnapshot snapshot, String prevKey) {}
 
-			public void onChildRemoved(DataSnapshot arg0) {}
+			public void onChildRemoved(DataSnapshot snapshot) {}
 		});
 
 		purger = new MessagePurger(firebase, purgeInterval, purgeLogs);
 		String[] channelArray = channels.split(",");
-		for(int i = 0; i < channelArray.length; i++) {
+		for (int i = 0; i < channelArray.length; i++) {
 			purger.registerBranch(CH + "/" + channelArray[i]);
 		}
 		initLogger();
@@ -137,20 +140,22 @@ public class MessageProcessorServlet extends HttpServlet {
 	}
 
 	/*
-	 * To generate a unique ID for each Servlet instance and clients push messages to "/inbox/<inbox>".
+	 * To generate a unique ID for each Servlet instance and clients push messages to 
+	 * "/inbox/<inbox>".
 	 */
 	private void generateUniqueId() {
 		Random rand = new Random();
 		StringBuffer buf = new StringBuffer();
-		for(int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++) {
 			buf.append(Integer.toString(rand.nextInt(10)));
 		}
 		inbox = buf.toString();
 	}
 
 	/*
-	 * Initialize user event logger. This is just a sample implementation to demonstrate receiving updates. 
-	 * The production application should transform, filter or load to other data store such as BigQuery.
+	 * Initialize user event logger. This is just a sample implementation to demonstrate receiving
+	 * updates. The production application should transform, filter or load to other data store 
+	 * such as BigQuery.
 	 */
 	private void initLogger() {
 		String loggerKey = IBX + "/" + inbox + "/logs";
@@ -183,7 +188,8 @@ public class MessageProcessorServlet extends HttpServlet {
 
 	/*
 	 * (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, 
+	 * javax.servlet.http.HttpServletResponse)
 	 * Just printing all user event logs stored in memory of this Servlet instance.
 	 */
 	@Override
@@ -192,9 +198,11 @@ public class MessageProcessorServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Inbox : " + inbox);
 
-		for(Iterator<LogEntry> iter = logs.iterator(); iter.hasNext();) {
+		for (Iterator<LogEntry> iter = logs.iterator(); iter.hasNext();) {
 			LogEntry entry = (LogEntry)iter.next();
-			resp.getWriter().println(new Date(entry.getTimeLong()).toString() + "(id=" + entry.getTag() + ")" +  " : " + entry.getLog());
+			resp.getWriter().println(
+					new Date(entry.getTimeLong()).toString() + "(id=" + entry.getTag() + ")" 
+					+  " : " + entry.getLog());
 		}
 	}
 

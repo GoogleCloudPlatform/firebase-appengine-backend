@@ -26,16 +26,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-/*
+/**
  * MessagePurger is responsible for purging messages pushed under registered parent keys.
  * If a number of entries exceeds "maxLogs", exceeded entries are purged. It checks each registered 
  * parent key under regular interval, "purgeInterval".
- * 
- * @autho teppeiy
+ *
+ * @author teppeiy
  */
 public class MessagePurger extends Thread {
 
-	private static Logger logger = Logger.getLogger("com.google.cloud.solutions.managedvm.backend.MessagePurger");
+	private static Logger logger = Logger.getLogger(MessagePurger.class.getName());
 
 	private Firebase firebase;
 	private int purgeInterval;
@@ -55,7 +55,7 @@ public class MessagePurger extends Thread {
 	}
 
 	public void run() {
-		for(;;) {
+		while(true) {
 			try {
 				Thread.sleep(purgeInterval);
 

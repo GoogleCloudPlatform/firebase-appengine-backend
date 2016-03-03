@@ -16,6 +16,7 @@
 package com.google.cloud.solutions.managedvm.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.ServerValue;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
 /*
  * An instance of Message represents an actual message pushed to a channel.
  */
+@JsonIgnoreProperties(ignoreUnknown = true) 
 public class Message {
     private String text;
     private String displayName;

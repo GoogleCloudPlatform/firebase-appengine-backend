@@ -16,6 +16,7 @@
 package com.google.cloud.solutions.managedvm.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.ServerValue;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
 /*
  * An instance of LogEntry represents a user event log, such as signin/out and switching a channel.
  */
+@JsonIgnoreProperties(ignoreUnknown = true) 
 public class LogEntry {
     private String tag;
     private String log;
