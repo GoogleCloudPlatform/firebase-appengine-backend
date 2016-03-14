@@ -1,6 +1,6 @@
-# Using Firebase and App Engine Managed VM as mobile app backend
+# Build a mobile app using  Firebase and App Engine Managed VMs
 
-This repository contains backend sample code for "[Using Firebase and App Engine Managed VM as mobile app backend](https://cloud.google.com/solutions/mobile/mobile-app-backend-on-cloud-platform#firebase-managed-vms)" paper.
+This repository contains backend sample code for "[Build a mobile app using  Firebase and App Engine Managed VMs backend](https://cloud.google.com/solutions/mobile/mobile-app-backend-on-cloud-platform#firebase-managed-vms)" paper.
 
 
 ## Deployment Requirements
@@ -11,7 +11,7 @@ Following Google APIs are needed to be enabled from Google Developers Console.
 
 - Sign up with [Firebase](https://www.firebase.com/) and obtain Firebase URL.
 
-Apache Maven is required in build environment. 
+Apache Maven is required in build environment.
 
 
 ## Google Cloud SDK setup
@@ -35,7 +35,7 @@ Get credentials and configure properties. This is optional and you may skip if i
 
 - Add a new Firebase Secret from "Secrets" tab for custom authentication.
 
-- Replace following initial parameters in "<WEB-INF>/web.xml". 
+- Replace following initial parameters in "<WEB-INF>/web.xml".
 
 ```xml
 <init-param>
@@ -73,11 +73,11 @@ Get credentials and configure properties. This is optional and you may skip if i
 ```bash
 http://localhost:8080/printLogs
 ```
- 
-- For App Engine Managed VM, replace "http://localhost:8080" to the assigned URL accordingly.
+
+- For App Engine Managed VMs, replace "http://localhost:8080" to the assigned URL accordingly.
 
 
-###License
+## License
  Copyright 2016 Google Inc. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
