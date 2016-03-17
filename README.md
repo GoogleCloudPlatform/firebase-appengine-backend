@@ -6,12 +6,10 @@ This repository contains backend sample code for "[Build a mobile app using  Fir
 ## Deployment Requirements
 Following Google APIs are needed to be enabled from Google Developers Console.
 - Google App Engine
-
 - Google Compute Engine
-
 - Sign up with [Firebase](https://www.firebase.com/) and obtain Firebase URL.
 
-Apache Maven is required in build environment.
+Apache Maven is required in build environment. Firebase is a Google product, independent from Google Cloud Platform.
 
 
 ## Google Cloud SDK setup
