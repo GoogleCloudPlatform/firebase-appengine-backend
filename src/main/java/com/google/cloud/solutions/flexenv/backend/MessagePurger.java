@@ -13,7 +13,7 @@
 # limitations under the License.
 **/
 
-package com.google.cloud.solutions.managedvm.backend;
+package com.google.cloud.solutions.flexenv.backend;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;

@@ -2,7 +2,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <servlet>
         <servlet-name>MessageProcessor</servlet-name>
-        <servlet-class>com.google.cloud.solutions.managedvm.backend.MessageProcessorServlet</servlet-class>
+        <servlet-class>com.google.cloud.solutions.flexenv.backend.MessageProcessorServlet</servlet-class>
 	    <init-param>
 		    <param-name>channels</param-name>
 		    <param-value>books,game,music,sports,travel</param-value>

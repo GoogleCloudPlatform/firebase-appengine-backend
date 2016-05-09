@@ -1,6 +1,6 @@
-# Build a mobile app using  Firebase and App Engine Managed VMs
+# Build a mobile app using  Firebase and App Engine Flexible Environment
 
-This repository contains backend sample code for "[Build a mobile app using  Firebase and App Engine Managed VMs backend](https://cloud.google.com/solutions/mobile/mobile-app-backend-on-cloud-platform#firebase-managed-vms)" paper.
+This repository contains backend sample code for "[Build a mobile app using  Firebase and App Engine Flexible Environment backend](https://cloud.google.com/solutions/mobile/mobile-app-backend-on-cloud-platform#firebase-managed-vms)" paper.
 
 
 ## Deployment Requirements
@@ -72,7 +72,7 @@ Get credentials and configure properties. This is optional and you may skip if i
 http://localhost:8080/printLogs
 ```
 
-- For App Engine Managed VMs, replace "http://localhost:8080" to the assigned URL accordingly.
+- For App Engine Flexible Environment, replace "http://localhost:8080" to the assigned URL accordingly.
 
 
 ## License

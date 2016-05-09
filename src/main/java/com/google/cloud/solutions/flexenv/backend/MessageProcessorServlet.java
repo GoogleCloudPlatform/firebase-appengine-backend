@@ -13,7 +13,7 @@
 # limitations under the License.
 **/
 
-package com.google.cloud.solutions.managedvm.backend;
+package com.google.cloud.solutions.flexenv.backend;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
@@ -22,8 +22,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.MutableData;
 import com.firebase.client.Transaction;
-
-import com.google.cloud.solutions.managedvm.common.*;
+import com.google.cloud.solutions.flexenv.common.*;
 
 import java.io.IOException;
 import java.lang.Override;

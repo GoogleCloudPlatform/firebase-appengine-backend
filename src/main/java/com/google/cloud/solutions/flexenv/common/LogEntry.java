@@ -13,7 +13,7 @@
 # limitations under the License.
 **/
 
-package com.google.cloud.solutions.managedvm.common;
+package com.google.cloud.solutions.flexenv.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,30 +22,29 @@ import com.firebase.client.ServerValue;
 import java.util.Map;
 
 /*
- * An instance of Message represents an actual message pushed to a channel.
+ * An instance of LogEntry represents a user event log, such as signin/out and switching a channel.
  */
 @JsonIgnoreProperties(ignoreUnknown = true) 
-public class Message {
-    private String text;
-    private String displayName;
+public class LogEntry {
+    private String tag;
+    private String log;
     private Long time;
 
-    public Message() {}
+    public LogEntry() {}
 
-    public Message(String text, String displayName) {
-        this.text = text;
-        this.displayName = displayName;
+    public LogEntry(String tag, String log) {
+        this.tag = tag;
+        this.log = log;
     }
 
-    public String getText() { return text; }
-    public void setText(String text) { this.text = text; }
-    public String getDisplayName() { return displayName; }
-    public void setDisplayName(String displayName) { this.displayName = displayName; }
+    public String getTag() { return tag; }
+    public void setTag(String tag) { this.tag = tag; }
+    public String getLog() { return log; }
+    public void setLog(String log) { this.log = log; }
 
     public Map<String, String> getTime() { return ServerValue.TIMESTAMP; }
     public void setTime(Long time) { this.time = time; }
 
     @JsonIgnore
-    public Long getTimeLong() { return time;}
+    public Long getTimeLong() { return time; }
 }
-
