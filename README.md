@@ -1,13 +1,13 @@
-# Build a mobile app using  Firebase and App Engine Flexible Environment
+# Build a Mobile App Using  Firebase and App Engine Flexible Environment
 
-This repository contains backend sample code for "[Build a mobile app using  Firebase and App Engine Flexible Environment backend](https://cloud.google.com/solutions/mobile/mobile-app-backend-on-cloud-platform#firebase-managed-vms)" paper.
+This repository contains backend sample code for "[Build a Mobile App Using  Firebase and App Engine Flexible Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-appengine-flexible)" paper.
 
 
 ## Deployment Requirements
 Following Google APIs are needed to be enabled from Google Developers Console.
 - Google App Engine
 - Google Compute Engine
-- Sign up with [Firebase](https://www.firebase.com/) and obtain Firebase URL.
+- Sign up on [Firebase](https://firebase.corp.google.com/) and create a new project (if you don't have one).
 
 Apache Maven is required in build environment. Firebase is a Google product, independent from Google Cloud Platform.
 
@@ -27,29 +27,24 @@ Get credentials and configure properties. This is optional and you may skip if i
 
 
 ## Configuration
-- Login to Firebase console and check "Enable Google Authentication" from "Login & Auth" tab.
+- Login to Firebase console and enable "Google" sign in provider from "SIGN IN METHOD" tab in "Auth" menu.
 
-- Add a Google Client ID. Detailed instructions are [here](https://www.firebase.com/docs/web/guide/login/google.html).
+- From "Settings", click "Permissions" and move to "IAM & Admin" menu, then create a new service account and download JSON file ([more details](https://firebase.google.com/docs/server/setup#add_firebase_to_your_app)). Note that this JSON file is different from "google-services.json" file used in Android client.
 
-- Add a new Firebase Secret from "Secrets" tab for custom authentication.
+- Copy the JSON file under "WEB-INF" source directory.
 
-- Replace following initial parameters in "<WEB-INF>/web.xml".
+- Replace following initial parameters in "WEB-INF/web.xml".
 
 ```xml
 <init-param>
-	<param-name>endpoint</param-name>
-	<param-value>"Firebase URL"</param-value>
+	<param-name>credential</param-name>
+	<param-value>/WEB-INF/JSON_FILE_NAME</param-value>
 </init-param>
-
-...
-
 <init-param>
-	<param-name>secret</param-name>
-	<param-value>"Firebase Secret"</param-value>
+	<param-name>databaseUrl</param-name>
+	<param-value>FIREBASE_URL</param-value>
 </init-param>
 ```
-
-- Go back to Firebase console and add "Authorized Domains for OAuth Redirects"
 
 
 ## Build and deploy

@@ -15,11 +15,12 @@
 
 package com.google.cloud.solutions.flexenv.backend;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.Override;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -34,57 +35,56 @@ import java.util.logging.Logger;
  * @author teppeiy
  */
 public class MessagePurger extends Thread {
+  private static Logger logger = Logger.getLogger(MessagePurger.class.getName());
 
-	private static Logger logger = Logger.getLogger(MessagePurger.class.getName());
+  private DatabaseReference firebase;
+  private int purgeInterval;
+  private int purgeLogs;
+  private ConcurrentLinkedQueue<String> branches;
 
-	private Firebase firebase;
-	private int purgeInterval;
-	private int purgeLogs;
-	private ConcurrentLinkedQueue<String> branches;
+  public MessagePurger(DatabaseReference firebase, int purgeInterval, int purgeLogs) {
+    this.setDaemon(true);
+    this.firebase = firebase;
+    this.purgeInterval = purgeInterval;
+    this.purgeLogs = purgeLogs;
+    branches = new ConcurrentLinkedQueue<String>();
+  }
 
-	public MessagePurger(Firebase firebase, int purgeInterval, int purgeLogs) {
-		this.setDaemon(true);
-		this.firebase = firebase;
-		this.purgeInterval = purgeInterval;
-		this.purgeLogs = purgeLogs;
-		branches = new ConcurrentLinkedQueue<String>();
-	}
+  public void registerBranch(String branchKey) {
+    branches.add(branchKey);
+  }
 
-	public void registerBranch(String branchKey) {
-		branches.add(branchKey);
-	}
+  public void run() {
+    while(true) {
+      try {
+        Thread.sleep(purgeInterval);
 
-	public void run() {
-		while(true) {
-			try {
-				Thread.sleep(purgeInterval);
+        Iterator<String> iter = branches.iterator();
+        while(iter.hasNext()) {
+          final String branchKey = (String)iter.next();
+          // Query to check whether entries exceed "maxLogs".
+          Query query = firebase.child(branchKey).orderByKey().limitToFirst(purgeLogs);
+          query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+              // If entries are less than "maxLogs", do nothing.
+              if (snapshot.getChildrenCount() == purgeLogs) {
+                for (DataSnapshot child: snapshot.getChildren()) {
+                  firebase.child(branchKey + "/" + child.getKey()).removeValue();
+                }
+              } 
+            }
 
-				Iterator<String> iter = branches.iterator();
-				while(iter.hasNext()) {
-					final String branchKey = (String)iter.next();
-					// Query to check whether entries exceed "maxLogs".
-					Query query = firebase.child(branchKey).orderByKey().limitToFirst(purgeLogs);
-					query.addListenerForSingleValueEvent(new ValueEventListener() {
-						@Override
-						public void onDataChange(DataSnapshot snapshot) {
-							// If entries are less than "maxLogs", do nothing.
-							if (snapshot.getChildrenCount() == purgeLogs) {
-								for (DataSnapshot child: snapshot.getChildren()) {
-									firebase.child(branchKey + "/" + child.getKey()).removeValue();
-								}
-							}
-						}
-
-						@Override
-						public void onCancelled(FirebaseError firebaseError) {
-							logger.warning(firebaseError.getDetails());
-						}
-					});
-				}
-			} catch(InterruptedException ie) {
-				logger.warning(ie.getMessage());
-				break;
-			}
-		}
-	}
+            @Override
+            public void onCancelled(DatabaseError error) {
+              logger.warning(error.getDetails());
+            }
+          });
+        }
+      } catch(InterruptedException ie) {
+        logger.warning(ie.getMessage());
+        break;
+      }
+    }
+  }
 }
