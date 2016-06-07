@@ -28,8 +28,9 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 /**
- * MessagePurger is responsible for purging messages pushed under registered parent keys.
- * If a number of entries exceeds "maxLogs", exceeded entries are purged. It checks each registered 
+ * MessagePurger is responsible for purging messages pushed under
+ * registered parent keys. If the number of entries exceeds "maxLogs",
+ * the excess entries are purged. It checks each registered 
  * parent key under regular interval, "purgeInterval".
  *
  * @author teppeiy
