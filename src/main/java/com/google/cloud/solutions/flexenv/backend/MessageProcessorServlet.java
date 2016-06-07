@@ -40,8 +40,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * MessageProcessorServlet is responsible for receiving user event logs from Android clients and
- * print logs whenever requested.
+ * MessageProcessorServlet is responsible for receiving user event logs
+ * from Android clients and printing logs when requested.
  *
  * @author teppeiy
  */
@@ -59,7 +59,8 @@ public class MessageProcessorServlet extends HttpServlet {
   private String channels;
   private String inbox;
 
-  // If number of messages in each channel or user events exceeds "purgeLogs", it will be purged.
+  // If the number of messages or user events in each channel exceeds
+  // "purgeLogs", it will be purged.
   private int purgeLogs;
   // Purger is invoked with every "purgeInterval".
   private int purgeInterval;
@@ -86,16 +87,19 @@ public class MessageProcessorServlet extends HttpServlet {
     FirebaseApp.initializeApp(options);
     firebase = FirebaseDatabase.getInstance().getReference();
 
+// [START replyToRequest]
     /*
-     * Receive a request from Android client and reply back its inbox ID.
-     * Use of transaction ensures that only single Servlet instance replies back to the client
-     * so the client knows to which Servlet instance to send consecutive user event logs.
+     * Receive a request from an Android client and reply back its inbox ID.
+     * Using a transaction ensures that only a single Servlet instance replies
+     * to the client. This lets the client knows to which Servlet instance
+     * to send consecutive user event logs.
      */
     firebase.child(REQLOG).addChildEventListener(new ChildEventListener() {
       public void onChildAdded(DataSnapshot snapshot, String prevKey) {
         firebase.child(IBX + "/" + snapshot.getValue()).runTransaction(new Transaction.Handler() {
           public Transaction.Result doTransaction(MutableData currentData) {
-            // The only first Servlet instance will write its ID to the client inbox.
+            // The only first Servlet instance will write
+            // its ID to the client inbox.
             if (currentData.getValue() == null) { currentData.setValue(inbox); }
             return Transaction.success(currentData);
           }
@@ -104,6 +108,7 @@ public class MessageProcessorServlet extends HttpServlet {
         });
         firebase.child(REQLOG).removeValue();
       }
+// [END replyToRequest]
 
       public void onCancelled(DatabaseError error) { localLog.warning(error.getDetails()); }
 
@@ -125,8 +130,8 @@ public class MessageProcessorServlet extends HttpServlet {
   }
 
   /*
-   * To generate a unique ID for each Servlet instance and clients push messages to 
-   * "/inbox/<inbox>".
+   * To generate a unique ID for each Servlet instance and clients
+   * push messages to "/inbox/<inbox>".
    */
   private void generateUniqueId() {
     Random rand = new Random();
@@ -137,10 +142,11 @@ public class MessageProcessorServlet extends HttpServlet {
     inbox = buf.toString();
   }
 
+// [START initializeEventLogger]
   /*
-   * Initialize user event logger. This is just a sample implementation to demonstrate receiving
-   * updates. The production application should transform, filter or load to other data store 
-   * such as BigQuery.
+   * Initialize user event logger. This is just a sample implementation to
+   * demonstrate receiving updates. A production version of this application
+   * should transform, filter or load to other data store such as Google BigQuery.
    */
   private void initLogger() {
     String loggerKey = IBX + "/" + inbox + "/logs";
@@ -162,6 +168,7 @@ public class MessageProcessorServlet extends HttpServlet {
       public void onChildRemoved(DataSnapshot arg0) {}
     });
   }
+// [END initializeEventLogger]
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

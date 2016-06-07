@@ -1,19 +1,23 @@
 # Build a Mobile App Using  Firebase and App Engine Flexible Environment
 
-This repository contains backend sample code for "[Build a Mobile App Using  Firebase and App Engine Flexible Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-appengine-flexible)" paper. Sample client code can be found [here](https://github.com/GoogleCloudPlatform/firebase-android-client).
+This repository contains backend sample code for 
+[Build a Mobile App Using  Firebase and App Engine Flexible Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-appengine-flexible)
+paper. Sample client code can be found
+[here](https://github.com/GoogleCloudPlatform/firebase-android-client).
 
 
 ## Deployment Requirements
 Following Google APIs are needed to be enabled from Google Developers Console.
 - Google App Engine
 - Google Compute Engine
-- Sign up on [Firebase](https://firebase.corp.google.com/) and create a new project (if you don't have one).
+- Sign up on [Firebase](https://firebase.corp.google.com/) and create a new project (if you don't have one.)
 
 Apache Maven is required in build environment. Firebase is a Google product, independent from Google Cloud Platform.
 
 
 ## Google Cloud SDK setup
-Get credentials and configure properties. This is optional and you may skip if it's already being set up.
+Get credentials and configure properties. This step is optional and you may
+skip it if it's already been set up.
 
 - Get credentials for the tools:
 ```bash
@@ -29,7 +33,11 @@ Get credentials and configure properties. This is optional and you may skip if i
 ## Configuration
 - Login to Firebase console and enable "Google" sign in provider from "SIGN IN METHOD" tab in "Auth" menu.
 
-- From "Settings", click "Permissions" and move to "IAM & Admin" menu, then create a new service account and download JSON file ([more details](https://firebase.google.com/docs/server/setup#add_firebase_to_your_app)). Note that this JSON file is different from "google-services.json" file used in Android client.
+- From "Settings", click "Permissions" and move to "IAM & Admin" menu, then
+create a new service account and download JSON file
+([more details](https://firebase.google.com/docs/server/setup#add_firebase_to_your_app)).
+Note that this JSON file is different from the "google-services.json"
+file used in the Android client.
 
 - Copy the JSON file under "WEB-INF" source directory.
 
@@ -73,8 +81,14 @@ http://localhost:8080/printLogs
 ## License
  Copyright 2016 Google Inc. All Rights Reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ use this file except in compliance with the License. You may obtain a copy
+ of the License at
       http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS-IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS-IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+License for the specific language governing permissions and limitations under
+the License.
 
 This is not an official Google product.
