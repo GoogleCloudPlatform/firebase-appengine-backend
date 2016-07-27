@@ -1,19 +1,16 @@
 # Build a Mobile App Using  Firebase and App Engine Flexible Environment
 
-This repository contains backend sample code for 
-[Build a Mobile App Using  Firebase and App Engine Flexible Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-app-engine-flexible)
-paper. Sample client code can be found
+This repository contains Android client sample code for the "[Build a Mobile App Using Firebase and App Engine Flexible Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-app-engine-flexible)" solution. Sample client code can be found
 [here](https://github.com/GoogleCloudPlatform/firebase-android-client).
 
-
 ## Deployment Requirements
-Following Google APIs are needed to be enabled from Google Developers Console.
-- Google App Engine
-- Google Compute Engine
-- Sign up on [Firebase](https://firebase.corp.google.com/) and create a new project (if you don't have one.)
+
+- Enable the following services in the Cloud console: https://console.cloud.google.com
+  - Google App Engine
+  - Google Compute Engine
+- Sign up for [Firebase](https://firebase.google.com/) and create a new project in the [Firebase console](htps://console.firebase.google.com/).
 
 Apache Maven is required in build environment. Firebase is a Google product, independent from Google Cloud Platform.
-
 
 ## Google Cloud SDK setup
 Get credentials and configure properties. This step is optional and you may
