@@ -77,7 +77,7 @@
       <plugin>
         <groupId>com.google.appengine</groupId>
         <artifactId>gcloud-maven-plugin</artifactId>
-        <version>2.0.9.90.v20151210</version>
+        <version>2.0.9.121.v20160815</version>
         <configuration>
           <promote>true</promote>
         </configuration>
