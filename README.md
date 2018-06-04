@@ -55,12 +55,12 @@ file used in the Android client.
 ## Build and deploy
 - To build and run the backend module locally:
 ```bash
-% mvn clean appengine:run
+% mvn clean package appengine:run
 ```
 
 - To deploy the backend module to App Engine:
 ```bash
-% mvn appengine:deploy
+% mvn clean package appengine:deploy
 ```
 
 
