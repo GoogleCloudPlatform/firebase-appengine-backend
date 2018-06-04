@@ -73,11 +73,10 @@
           </webResources>
         </configuration>
       </plugin>
-
       <plugin>
-        <groupId>com.google.appengine</groupId>
-        <artifactId>gcloud-maven-plugin</artifactId>
-        <version>2.0.9.90.v20151210</version>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>appengine-maven-plugin</artifactId>
+        <version>1.3.2</version>
         <configuration>
           <promote>true</promote>
         </configuration>
