@@ -1,91 +1,129 @@
-# Build a Mobile App Using  Firebase and App Engine Flexible Environment
+# Build a mobile app using Firebase and App Engine flexible environment
 
-This repository contains Android client sample code for the "[Build a Mobile App Using Firebase and App Engine Flexible Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-app-engine-flexible)" solution. Sample client code can be found
-[here](https://github.com/GoogleCloudPlatform/firebase-android-client).
+This repository contains Android client sample code for the [Build a Mobile App
+Using Firebase and App Engine Flexible
+Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-app-engine-flexible)
+solution. You can find the sample code for the Android client code in the
+[firebase-android-client](../../../firebase-android-client) repository.
 
-## Deployment Requirements
+## Deployment requirements
 
-- Enable the following services in the Cloud console: https://console.cloud.google.com
+- Enable the following services in the [Google Cloud Platform
+  console](https://console.cloud.google.com):
   - Google App Engine
   - Google Compute Engine
-- Sign up for [Firebase](https://firebase.google.com/) and create a new project in the [Firebase console](htps://console.firebase.google.com/).
+- Sign up for [Firebase](https://firebase.google.com/) and create a new project
+  in the [Firebase console](https://console.firebase.google.com/).
+- Install the following tools in your development environment:
+  - [Apache Maven](https://maven.apache.org/)
+  - [Google Cloud SDK](https://cloud.google.com/sdk/)
 
-Apache Maven is required in build environment. Firebase is a Google product, independent from Google Cloud Platform.
+> **Note**: Firebase is a Google product, independent from Google Cloud
+> Platform.
 
 ## Google Cloud SDK setup
-Get credentials and configure properties. This step is optional and you may
-skip it if it's already been set up.
 
-- Get credentials for the tools:
+Configure the SDK to access the Google Cloud Platform by using the following
+command:
+
 ```bash
-% gcloud auth login
+gcloud auth login
 ```
 
-- Set project:
-```bash
-% gcloud configure set project <Project ID>
-```
+Get the project ID from the settings page of your Firebase project. Use the
+following command to set your Firebase project as the active project for the
+SDK:
 
+```bash
+gcloud config set project [project-id]
+```
 
 ## Configuration
-- Login to Firebase console and enable "Google" sign in provider from "SIGN IN METHOD" tab in "Auth" menu.
 
-- From "Settings", click "Permissions" and move to "IAM & Admin" menu, then
-create a new service account and download JSON file
-([more details](https://firebase.google.com/docs/server/setup#add_firebase_to_your_app)).
-Note that this JSON file is different from the "google-services.json"
-file used in the Android client.
+Enable the Google sign-in provider by following these steps:
 
-- Copy the JSON file under "WEB-INF" source directory.
+1. Sign in to the [Firebase console](https://console.firebase.google.com) and
+   select your project.
+1. In the **Develop** section, select **Authentication**.
+1. In the **Authentication** page, select **Sign-in Method**.
+1. Select and enable the **Google** sign-in provider.
 
-- Replace following initial parameters in "WEB-INF/web.xml".
+Follow these steps to configure a service account for the backend application:
 
-```xml
-<init-param>
-	<param-name>credential</param-name>
-	<param-value>/WEB-INF/JSON_FILE_NAME</param-value>
-</init-param>
-<init-param>
-	<param-name>databaseUrl</param-name>
-	<param-value>FIREBASE_URL</param-value>
-</init-param>
-```
+1. Go to your project settings page on the [Firebase
+   console](https://console.firebase.google.com).
+1. Select the **Service accounts** tab.
+1. Click **Manage all service accounts**.
+1. In the **IAM & admin** page click **Create service account**.
+1. In the dialog, create an account with the following parameters:
+   * Enter *playchat-servlet* in the **Service account name** field.
+   * Select **Project** > **Owner** in the **Role** menu.
+   * Select **Furnish a new private key**.
+   * Choose **JSON** as the key type.
+   > **Caution**: The owner role gives the service account full access to all
+   > resources in the project. In a production app, you should change the role
+   > to the minimum access that your service account requires.
+1. After you finish creating the account, your browser downloads the service
+   account's private key to your computer as a JSON file. Move the file to the
+   `src/main/webapp/WEB-INF` folder in the backend project.
+1. In the [Firebase console](https://console.firebase.google.com), select the
+   **Database** page. Take note of the URL of the Realtime Database, which is in
+   the following format:
+   ```
+   https://[project-id].firebase.io/
+   ```
+1. Open the `src/main/webapp/WEB-INF/web.xml` file and do the following:
+   * Replace the `JSON_FILE_NAME` placeholder with the JSON file from that
+     stores the service account's private key.
+   * Replace the `FIREBASE_URL` placeholder with the URL of the Realtime
+     Database from the previous step.
+
+   The following example shows the placeholders in the `web.xml` file:
+   ```xml
+   <init-param>
+     <param-name>credential</param-name>
+     <param-value>/WEB-INF/JSON_FILE_NAME</param-value>
+   </init-param>
+   <init-param>
+     <param-name>databaseUrl</param-name>
+     <param-value>FIREBASE_URL</param-value>
+   </init-param>
+   ```
 
 
 ## Build and deploy
-- To build and run the backend module locally:
+
+To build and run the backend module locally:
+
 ```bash
-% mvn clean package appengine:run
+mvn clean package appengine:run
 ```
 
-- To deploy the backend module to App Engine:
-```bash
-% mvn clean package appengine:deploy
-```
+To deploy the backend module to App Engine:
 
+```bash
+mvn clean package appengine:deploy
+```
 
 ## View user event logs
-- Run Android client apps and access following URLs to view user event logs.
 
-- For local build environment :
+Run the Android client app, perform some activities such as signing in and
+switching channels, and go to the following URL to view user event logs:
+
 ```bash
-http://localhost:8080/printLogs
+https://[project-id].appspot.com/printLogs
 ```
 
-- For App Engine Flexible Environment, replace "http://localhost:8080" to the assigned URL accordingly.
-
-
 ## License
- Copyright 2016 Google Inc. All Rights Reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License"); you may not
- use this file except in compliance with the License. You may obtain a copy
- of the License at
-      http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS-IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-License for the specific language governing permissions and limitations under
-the License.
+Copyright 2018 Google LLC. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+applicable law or agreed to in writing, software distributed under the License
+is distributed on an "AS-IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the specific language
+governing permissions and limitations under the License.
 
 This is not an official Google product.
