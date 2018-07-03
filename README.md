@@ -15,6 +15,8 @@ solution. You can find the sample code for the Android client code in the
 - Sign up for [Firebase](https://firebase.google.com/) and create a new project
   in the [Firebase console](https://console.firebase.google.com/).
 - Install the following tools in your development environment:
+  - [Python 2.7](https://www.python.org/downloads/)
+  - [Java 8](https://java.com/en/download/)
   - [Apache Maven](https://maven.apache.org/)
   - [Google Cloud SDK](https://cloud.google.com/sdk/)
 
