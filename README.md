@@ -1,5 +1,7 @@
 # Build a mobile app using Firebase and App Engine flexible environment
 
+![Kokoro Build Status](https://storage.googleapis.com/cloud-devrel-kokoro-resources/java/badges/firebase-appengine-backend.svg)
+
 This repository contains Android client sample code for the [Build a Mobile App
 Using Firebase and App Engine Flexible
 Environment](https://cloud.google.com/solutions/mobile/mobile-firebase-app-engine-flexible)
