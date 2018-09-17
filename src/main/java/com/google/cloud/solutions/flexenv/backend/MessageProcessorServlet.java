@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * MessageProcessorServlet is responsible for receiving user event logs
- * from Android clients and printing logs when requested.
+ * from clients and printing logs when requested.
  *
  * @author teppeiy
  */
@@ -54,6 +54,9 @@ public class MessageProcessorServlet extends HttpServlet {
   private static final String CH = "channels";
   private static final String REQLOG = "requestLogger";
 
+  // The Logger object records application-level events. The events are
+  // displayed in the local console if the servlet is running on the local
+  // server, or in GCP Console if the servlet is running on the cloud.
   private static Logger localLog = Logger.getLogger(MessageProcessorServlet.class.getName());
   private DatabaseReference firebase;
 
@@ -90,7 +93,7 @@ public class MessageProcessorServlet extends HttpServlet {
 
     // [START replyToRequest]
     /*
-     * Receive a request from an Android client and reply back its inbox ID.
+     * Receive a request from a client and reply back its inbox ID.
      * Using a transaction ensures that only a single servlet instance replies
      * to the client. This lets the client know to which servlet instance
      * send consecutive user event logs.
