@@ -17,7 +17,9 @@
 set -e
 
 # Update gcloud and check version
-gcloud components update --quiet
+echo "Updating specifically to version 240.0.0 to workaround an issue in the " \
+     "Cloud SDK"
+gcloud components update --version 240.0.0
 echo "********** GCLOUD INFO ***********"
 gcloud -v
 echo "********** MAVEN INFO  ***********"
