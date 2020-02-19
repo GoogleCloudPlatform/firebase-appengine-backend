@@ -29,4 +29,5 @@
     <resource-files>
         <include path="/**.json" />
     </resource-files>
+    <runtime>java8</runtime>
 </appengine-web-app>
