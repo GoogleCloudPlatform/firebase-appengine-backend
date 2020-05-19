@@ -56,26 +56,52 @@ Follow these steps to configure a service account for the backend application:
 
 1. Go to your project settings page on the [Firebase
    console](https://console.firebase.google.com).
-1. Select the **Service accounts** tab.
-1. Click **Manage all service accounts**.
+1. Click the **Settings** gear next to 'Project Overview' and then **Project settings**.
+1. Select **Service accounts** and click the link **Manage service account permissions**.
 1. In the **IAM & admin** page click **Create service account**.
 1. In the dialog, create an account with the following parameters:
    * Enter *playchat-servlet* in the **Service account name** field.
    * Select **Project** > **Owner** in the **Role** menu.
-   * Select **Furnish a new private key**.
+   * Check **CREATE KEY**.
    * Choose **JSON** as the key type.
+   * Click **CREATE** to download the key.
    > **Caution**: The owner role gives the service account full access to all
    > resources in the project. In a production app, you should change the role
    > to the minimum access that your service account requires.
 1. After you finish creating the account, your browser downloads the service
    account's private key to your computer as a JSON file. Move the file to the
    `src/main/webapp/WEB-INF` folder in the backend project.
-1. In the [Firebase console](https://console.firebase.google.com), select the
-   **Database** page. Take note of the URL of the Realtime Database, which is in
-   the following format:
-   ```
-   https://[project-id].firebase.io/
-   ```
+1. From the left menu of the [Firebase
+   console](https://console.firebase.google.com),
+   select **Database** in the **Develop** group.
+
+1. In the **Database** page, click **Create database** in the **Realtime Database** section.
+
+1. In the **Security rules for Realtime Database** dialog, select **Start in
+   test mode** and click **Enable**.
+
+    Caution: Test mode allows anyone with your database reference to perform
+    read and write operations to your database. If test mode isn't appropriate
+    for your purposes, you can write security rules to manage access to your
+    data. For more information, see
+    [Get Started with Database Rules](https://firebase.google.com/docs/database/security/quickstart)
+    in the Firebase documentation.
+
+    This step displays the data you’ve stored in Firebase. In later steps of
+    this tutorial, you can revisit this web page to see data added and updated
+    by the client app and backend servlet.
+1. In the **Rules** tab of the database, make sure you have the security rules for read/write. For example:
+    ```json
+    {
+      "rules": {
+        ".read": true,
+        ".write": true
+      }
+    }
+    ```
+1. Make a note of the Firebase URL for your project, which is in the form
+   `https://[project-id].firebaseio.com/` and appears next to a
+   link icon.
 1. Open the `src/main/webapp/WEB-INF/web.xml` file and do the following:
    * Replace the `JSON_FILE_NAME` placeholder with the JSON file from that
      stores the service account's private key.
