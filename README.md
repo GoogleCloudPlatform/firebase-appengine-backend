@@ -62,12 +62,12 @@ Follow these steps to configure a service account for the backend application:
 1. In the dialog, create an account with the following parameters:
    * Enter *playchat-servlet* in the **Service account name** field.
    * Select **Project** > **Owner** in the **Role** menu.
-1. After the service account is created, click it and choose **Create new key** in the **ADD KEY** dropdown button.
-   * Choose **JSON** as the key type.
-   * Click **CREATE** to download the key.
    > **Caution**: The owner role gives the service account full access to all
    > resources in the project. In a production app, you should change the role
    > to the minimum access that your service account requires.
+1. After the service account is created, click it and choose **Create new key** in the **ADD KEY** dropdown button.
+   * Choose **JSON** as the key type.
+   * Click **CREATE** to download the key.
 1. After you finish creating the account, your browser downloads the service
    account's private key to your computer as a JSON file. Move the file to the
    `src/main/webapp/WEB-INF` folder in the backend project.
