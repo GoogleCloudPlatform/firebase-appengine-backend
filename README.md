@@ -24,7 +24,8 @@ solution. You can find the sample code for the Android client code in the
 > **Note**: Firebase is a Google product, independent from Google Cloud
 > Platform.
 
-> App Engine Flexible Environment [needs Java 8 Runtime](https://cloud.google.com/appengine/docs/flexible/java/setting-up-environment). However, in your local development environment you can 
+A Java application deploys to App Engine Flexible Environment [needs to use Java 8 Runtime](https://cloud.google.com/appengine/docs/flexible/java/setting-up-environment). 
+However, in your local development environment you can
 use JDK 8 or newer as long as your JDK is able to produce Java 8 class files.
 
 ## Google Cloud SDK setup
