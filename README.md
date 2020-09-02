@@ -17,13 +17,15 @@ solution. You can find the sample code for the Android client code in the
 - Sign up for [Firebase](https://firebase.google.com/) and create a new project
   in the [Firebase console](https://console.firebase.google.com/).
 - Install the following tools in your development environment:
-  - [Python 2.7](https://www.python.org/downloads/)
   - [Java 8](https://java.com/en/download/)
   - [Apache Maven](https://maven.apache.org/)
   - [Google Cloud SDK](https://cloud.google.com/sdk/)
 
 > **Note**: Firebase is a Google product, independent from Google Cloud
 > Platform.
+
+> App Engine Flexible Environment [needs Java 8 Runtime](https://cloud.google.com/appengine/docs/flexible/java/setting-up-environment). However, in your local development environment you can 
+use JDK 8 or newer as long as your JDK is able to produce Java 8 class files.
 
 ## Google Cloud SDK setup
 
