@@ -1,3 +1,9 @@
+![status: inactive](https://img.shields.io/badge/status-inactive-red.svg)
+
+This project is no longer actively developed or maintained.
+
+For new work on this check out [Firebase Hosting for Cloud Run](https://firebase.googleblog.com/2019/04/firebase-hosting-and-cloud-run.html).
+
 # Build a mobile app using Firebase and App Engine flexible environment
 
 ![Kokoro Build Status](https://storage.googleapis.com/cloud-devrel-kokoro-resources/java/badges/firebase-appengine-backend.svg)
